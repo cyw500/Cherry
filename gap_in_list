@@ -1,0 +1,10 @@
+def solution(A):
+    # write your code in Python 3.6
+    A = sorted(A)
+    if max(A) < 1:
+        return (1)
+    for i in range(len(A)-1):
+        if A[i] == A[i+1] or A[i] +1 == A[i+1]:
+            continue
+        return (A[i] +1)
+    return (A[-1]+1)
