@@ -1,0 +1,25 @@
+def solution1(Q):
+    # write your code in Python 3.6
+    l = []
+    for n in range(round(Q**0.5)+1):
+        for m in range (round(Q**.5)+1,0,-1):
+            if Q - n**2 - m**2 == 0:
+                l += [(n,m)]
+    print (l)
+
+def solution2(A):
+    #A.sort()
+    #print (A[1] - A[0])
+    minimum = min(A)
+    A.pop(A.index(minimum))
+    return (min(A) - minimum)
+
+def solution3(n, m):
+    # if only need to find how many l change to c = 0 and return (m+1-n-c)
+	l = []
+	for i in range(n,m+1):
+		for j in range (2,i):
+			if i % j == 0:
+				l += [i]
+				break
+	print (len([x for x in [i for i in range(n,m+1)] if x not in l]),m+1-n-len(l))
