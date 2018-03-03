@@ -1,0 +1,26 @@
+_arr_cnt = 0
+_arr_cnt = int(input())
+_arr_i = 0
+_arr = []
+while _arr_i < _arr_cnt:
+    _arr_item = int(input());
+    _arr.append(_arr_item)
+    _arr_i += 1
+
+_k = int(input());
+
+def findNumber1(a,k):
+    try:
+        a[k]
+        print("YES")
+    except:
+        print("NO")
+
+def findNumber2(a,k):
+    if len(a) < k:
+        print("NO")
+    else:
+        print("YES")        
+
+res = findNumber(_arr,_k)
+res
