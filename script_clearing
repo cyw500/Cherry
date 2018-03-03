@@ -1,0 +1,15 @@
+def sanitizing(S):
+    f = 0
+    output = ""
+    completed = 0
+    while not completed:
+        t = S.find("<script>", f)
+        if t > 0:
+            output += S[f:t] + " "
+            f = S.find("</script>", t) + 9
+            continue
+        else:
+            output += S[f:]
+            completed = 1
+    
+    print (output)
