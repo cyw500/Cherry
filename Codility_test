@@ -1,0 +1,42 @@
+Median of a non empyt
+
+def solution(A):
+    # write your code in Python 3.6
+    A.sort()
+    return A[len(A)//2]
+    
+The highest repeat in array
+
+def solution(A):
+    # write your code in Python 3.6
+    count = [A.count(n) for n in set(A)]
+    index = count.index(max(count))
+    return A[index]
+    
+A zero- indexed array A consisting of N different integers is given. The array contains all integers in the range [0…N-1]. Sets S [K] for 0 ≤ K ≤ N are defines a s follows:
+S[k] = {A[K], A[A[K]], A[A[A[K]]],….}.
+
+Sets S[k] are finite for each k.
+
+Write a function 
+Class Solution {public int solution (int [] a);}
+
+That given an array A consisting of N integers, returns the size of the largest set S[K] for this array. The function should return O if the array is empty
+
+For example A[0]=5, A[1]=4, A[2]=0, A[3]=3, A[4]=1, A[5]=6, A[6]=2,
+The function should return 4, because set S [2] = {0, 5, 6, 2} has for elements. No other set S[k] has more than four elements
+
+def solution(A):
+    # write your code in Python 3.6
+    array = []
+    subarray = []
+    for i in range(len(A)):
+        array.append(subarray)
+        while True:
+            if A[i] not in subarray:
+                subarray.append(A[i])
+                i = A[i]
+            if A[i] in subarray:
+                break
+        subarray = []  
+    return max([len(i) for i in array])
