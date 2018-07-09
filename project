@@ -1,0 +1,44 @@
+C1B <- read.csv("CacMonBad.csv")
+C1G <- read.csv("CacMonGood.csv")
+C2B <- read.csv("CezMonBad.csv")
+C3B <- read.csv("CjbMonBad.csv")
+C4B <- read.csv("CjpMonBad.csv")
+C5B <- read.csv("CpmMonBad.csv")
+
+
+C1 <- cbind(rbind(C1B,NA),C1G)
+CB <- cbind(C1B,C2B,C3B,C4B,C5B)
+
+library(ggplot2)
+eyeplot <- function(df) {
+ggplot(df) + geom_point(aes(x=df[,3], y=df[,4])) + 
+  geom_point(aes(x=df[,7], y=df[,8], color="response1"), shape=4) + 
+  geom_point(aes(x=df[,17], y=df[,18], color="response2"), shape=4) + 
+  geom_point(aes(x=df[,27], y=df[,28], color="response3"), shape=4) +  
+  geom_point(aes(x=df[,37], y=df[,38], color="response4"), shape=4) +
+  geom_point(aes(x=df[,47], y=df[,48], color="response5"), shape=4) +
+  scale_colour_manual(name="",  values = c("response1"="red", "response2"="blue","response3"="green","response4"="purple","response5"="orange"), label=c("","","","",""))
+}
+
+eyeplot(CB)
+
+ggplot(subset(CB, targetX.512==24)) + geom_point(aes(x=24, y=CB[CB[,3] == 24,4])) + 
+  geom_point(aes(x=CB[CB[,3] == 24,7], y=CB[CB[,3] == 24,8], color="response1"), shape=4) 
+
+s = subset(CB, targetX.512==24 & targetY.384 == 59) 
+ggplot(subset(CB, targetX.512==24 & targetY.384 == 59)) +
+  geom_point(aes(x=CB[CB[,3] == 24 & CB[,4] == 59,7], y=CB[CB[,3] == 24 & CB[,4] == 59,8]), shape=4) + geom_point (aes(x=min(s[,"responseX.512"]) + (max(s[,"responseX.512"]) - min(s[,"responseX.512"]))/2, y =min(s[,"responseY.384"]) + (max(s[,"responseY.384"]) - min(s[,"responseY.384"]))/2))
+
+s = subset(CB, targetX.512==24 & targetY.384 == -59) 
+ggplot(subset(CB, targetX.512==24 & targetY.384 == -59)) +
+  geom_point(aes(x=CB[CB[,3] == 24 & CB[,4] == -59,7], y=CB[CB[,3] == 24 & CB[,4] == -59,8]), shape=4) + geom_point (aes(x=min(s[,"responseX.512"]) + (max(s[,"responseX.512"]) - min(s[,"responseX.512"]))/2, y =min(s[,"responseY.384"]) + (max(s[,"responseY.384"]) - min(s[,"responseY.384"]))/2))
+
+library(ggpubr)
+location <- function(x,y) {
+ggscatter(subset(CB, targetX.512==x & targetY.384 == y), x = "responseX.512", y = "responseY.384",  size = 2, add = "reg.line", conf.int = F, cor.coef = TRUE, cor.coeff.args = list(method = "pearson", label.x.npc = 0.7, label.y.npc = 0.48))   + 
+  geom_smooth(method="lm", se=FALSE, aes(color= "Overall")) }
+location(24,59)
+
+s = subset(CB, targetX.512==24 & targetY.384 == 59) 
+min(s[,"responseX.512"]) + (max(s[,"responseX.512"]) - min(s[,"responseX.512"]))/2
+min(s[,"responseY.384"]) + (max(s[,"responseY.384"]) - min(s[,"responseY.384"]))/2
