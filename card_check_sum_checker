@@ -33,7 +33,7 @@ def checksum(numlist):
             if n > 9:
                 n = int(str(n)[0]) + int(str(n)[1])
             sumB += n
-        if sumA+sumB % 10 == 0:
+        if (sumA+sumB) % 10 == 0:
             print ("yes")
         else:
             print ("no")
