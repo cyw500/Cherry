@@ -1,0 +1,123 @@
+#codingame
+
+''' trial
+
+ TEMP
+
+'''
+#n = int(input())
+#temp = input()
+n = 5
+temp = "1 -2 -8 4 5"
+
+if n == 0:
+    print (0)
+else:
+    temp = temp.split(" ")
+    temp = [int(i) for i in temp]
+    abs_temp = [abs(int(i)) for i in temp]
+    # if min(abs_temp) in temp:
+    #     print (min(abs_temp))
+    # else:
+    #     print (-min(abs_temp))
+    #print (min(temp, key=lambda x:abs(x-0)))
+
+'''
+
+Word frequency
+#https://www.saltycrane.com/blog/2007/09/how-to-sort-python-dictionary-by-keys/
+https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value
+'''
+page = "Recurrent Neural Networks are the state of the art algorithm for sequential data and among others used by Apples Siri and Googles Voice Search. This is because it is the first algorithm that remembers its input, due to an internal memory, which makes it perfectly suited for Machine Learning problems that involve sequential data. It is one of the algorithms behind the scenes of the amazing achievements of Deep Learning in the past few years. In this post, you will learn the basic concepts of how Recurrent Neural Networks work, what the biggest issues are and how to solve them."
+import re
+page = re.findall(r'\w+', page.lower())
+
+word_freq = {}
+for word in page:
+    if word in word_freq:
+        word_freq[word] += 1
+    else:
+        word_freq[word] = 1
+highest_freq = sorted(word_freq.items(), key=lambda kv: kv[1], reverse=True)[:3]
+#print ([pair[0] for pair in highest_freq])
+
+
+#print(max(word_freq, key=word_freq.get))
+
+
+#import operator
+# x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
+# sorted_by_value = sorted(x.items(), key=lambda kv: kv[1], reverse=True)
+# print(sorted_by_value)
+
+
+
+
+'''
+
+ A lucky number
+https://www.codingame.com/ide/puzzle/the-lucky-number
+
+'''
+# 71036442 -> 37569124
+#n = input()
+#n = "92871036442 3363728910382456"
+#n = "1 1000000000000000000" #264160473575034274
+n = "1 1000000000000000000"
+def lucky(n):
+    n = n.split(" ")
+    L , H = int(n[0]) , int(n[1])
+    n_range = [str(i) for i in range(L,H+1)]
+    lucky = 0
+
+    for i in n_range:
+        if "6" in i and "8" in i :
+            pass
+        elif "6" in i :
+            lucky += 1
+        elif "8" in i :
+            lucky += 1
+    return lucky
+
+#print (lucky(n))
+
+'''
+
+The best runner
+
+'''
+
+run_time = "10:15:46 03:59:09 03:59:08 04:00:00"
+run_time = run_time.split(" ")
+run_time.sort()
+#print (min(run_time))
+#quickest = min(["".join((i.split(":"))) for i in run_time])
+#print (quickest[:2]+":"+quickest[2:4]+":"+quickest[4:])
+
+'''
+https://stackoverflow.com/questions/4183506/python-list-sort-in-descending-order
+import time
+timestamp = [
+    "2010-04-20 10:07:30",
+    "2010-04-20 10:07:38",
+    "2010-04-20 10:07:52",
+    "2010-04-20 10:08:22",
+    "2010-04-20 10:08:22",
+    "2010-04-20 10:09:46",
+    "2010-04-20 10:10:37",
+    "2010-04-20 10:10:58",
+    "2010-04-20 10:11:50",
+    "2010-04-20 10:12:13",
+    "2010-04-20 10:12:13",
+    "2010-04-20 10:25:38"
+]
+timestamp.sort(key=lambda x: time.strptime(x, '%Y-%m-%d %H:%M:%S')[0:6], reverse=True)
+
+print(timestamp)
+
+def foo(x):
+    return time.strptime(x, '%Y-%m-%d %H:%M:%S')[0:6]
+
+timestamp.sort(key=foo, reverse=True)
+print (timestamp)
+'''
