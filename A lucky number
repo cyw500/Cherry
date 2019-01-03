@@ -1,0 +1,95 @@
+'''
+
+ A lucky number
+https://www.codingame.com/ide/puzzle/the-lucky-number
+
+'''
+#n = input()
+#n = "92871036442 3363728910382456"
+#n = "1 1000000000000000000" #264160473575034274
+n = "0 6810"
+def lucky(n):
+    n = n.split(" ")
+    L , H = int(n[0]) , int(n[1])
+    n_range = [str(i) for i in range(L,H+1)]
+    lucky = 0
+
+    for i in n_range:
+        if "6" in i and "8" in i :
+            pass
+        elif "6" in i :
+            lucky += 1
+        elif "8" in i :
+            lucky += 1
+    return lucky
+
+#print (lucky(n))
+
+def luckydy1(n):
+    n = n.split(" ")
+
+    def number(power):
+        if power == 2:
+            count = sum([2,2,2,2,2,2,9,2,9,2])
+        else:
+            count = 8*number(power-1)+2*9**(power-1)
+        return count
+
+    return (number(len(n[1])-1))
+ 
+#print(luckydy1(n))
+
+def luckydy(n):
+    n = n.split(" ")
+    #L , H = int(n[0]) , int(n[1])
+    count = [0,0]
+    pre = False
+
+    def number(power):
+        if power == 1:
+            return [2,2,2,2,2,2,9,2,9,2]
+        elif power == 2:
+            count = sum([2,2,2,2,2,2,9,2,9,2])
+        else:
+            count = 8*number(power-1)+2*9**(power-1)
+        return count
+
+    def nlnumber(power):
+        if power == 1:
+            return [9,9,9,9,9,9,0,9,9,9]
+        elif power == 2:
+            count = sum([9,9,9,9,9,9,0,9,9,9])
+        else:
+            count = 8*number(power-1)+2*9**(power-1)
+        return count
+
+    def funct(pre,power):
+        if pre is True:
+            return nlnumber(power)
+        else:
+            return number(power)
+
+    for I in range(2):
+        while int(n[I])//10 >= 10:
+            power = len(n[I])-1
+            d = int(n[I][0]) # first digit
+            if d > 6:
+                if d == 7 or d == 8:
+                    count[I] += (d-1)*funct(pre,power)+ 9**(power)
+                if d == 9:
+                    count[I] += (d-2)*funct(pre,power)+ 2*9**(power)
+            else:
+                count[I] += d*funct(pre,power)
+            n[I] = n[I][1:]
+            if d in [6,8]:
+                pre = True
+#            print(n[I],count[I])
+#        print(n[I],int(n[I])//10)
+        if int(n[I]) > 9:
+            count[I] += sum(funct(pre,1)[:(int(n[I])//10)])
+#            print(sum(funct(pre,1)[:(int(n[I])//10)+1]))
+        # if pre:
+        #     count[I] += int(n[I][-1])+1
+    print(count[1]-count[0])
+
+luckydy(n)
