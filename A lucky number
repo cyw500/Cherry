@@ -41,9 +41,10 @@ def luckydy1(n):
 
 def luckydy(n):
     n = n.split(" ")
-    #L , H = int(n[0]) , int(n[1])
+    n[0] = str(int(n[0])-1)
     count = [0,0]
     pre = False
+    luck = [6,8]
 
     def number(power):
         if power == 1:
@@ -54,42 +55,75 @@ def luckydy(n):
             count = 8*number(power-1)+2*9**(power-1)
         return count
 
-    def nlnumber(power):
-        if power == 1:
-            return [9,9,9,9,9,9,0,9,9,9]
-        elif power == 2:
-            count = sum([9,9,9,9,9,9,0,9,9,9])
-        else:
-            count = 8*number(power-1)+2*9**(power-1)
-        return count
-
-    def funct(pre,power):
-        if pre is True:
-            return nlnumber(power)
-        else:
-            return number(power)
-
     for I in range(2):
         while int(n[I])//10 >= 10:
+            if not luck: # both 6 and 8 appeared hence the luck == []
+                break
             power = len(n[I])-1
             d = int(n[I][0]) # first digit
             if d > 6:
                 if d == 7 or d == 8:
-                    count[I] += (d-1)*funct(pre,power)+ 9**(power)
+                    if pre:
+                        if d <= luck[0]:
+                            count[I] += 9**(power)*d
+                        else:
+                            count[I] += 9**(power)*(d-1)
+                    else:
+                        count[I] += (d-1)*number(power)+ 9**(power)
                 if d == 9:
-                    count[I] += (d-2)*funct(pre,power)+ 2*9**(power)
+                    if pre:
+                        count[I] += 9**(power)*(d-1)
+                    else:
+                        count[I] += (d-2)*number(power)+ 2*9**(power)
             else:
-                count[I] += d*funct(pre,power)
+                if pre:
+                    count[I] += 9**(power)*d
+                else:
+                    count[I] += d*number(power)
             n[I] = n[I][1:]
-            if d in [6,8]:
-                pre = True
-#            print(n[I],count[I])
-#        print(n[I],int(n[I])//10)
-        if int(n[I]) > 9:
-            count[I] += sum(funct(pre,1)[:(int(n[I])//10)])
-#            print(sum(funct(pre,1)[:(int(n[I])//10)+1]))
-        # if pre:
-        #     count[I] += int(n[I][-1])+1
+
+            if d in luck:
+                pre = not pre # not pre will work for 8 -> 6 or via versa but if 6-> 6 also swap then X.X
+                luck.remove(d)
+
+        if luck: # luck array contain stuff
+            if pre: # either with [8] or [6]
+                n[I] = n[I][-2:]
+                for i in range(2):
+                    if int(n[I][i]) > luck[0]:
+                        count[I] += (int(n[I][i])-1)*(9**(1-i))
+                    else:
+                        count[I] += (int(n[I][i]))*(9**(1-i))
+                        if int(n[I][i]) == luck[0]:
+                            if i == 1:
+                                count[I] -= 1
+                            else:
+                                break
+                if n[I][0] != str(luck[0]):
+                    count[I] += 1
+            elif not pre: # luck == [6,8]
+                n[I] = n[I][-2:]
+                if int(n[I]) > 9:
+                    count[I] += sum([2,2,2,2,2,2,9,2,9,2][:int(n[I][0])])
+                    if int(n[I][0]) in luck:
+                        luck.remove(int(n[I][0]))
+                        pre = True
+                    n[I] = n[I][-1:]
+                if int(n[I]) < 10 :
+                    if pre:
+                        if luck[0] <= int(n[I]):
+                            count[I] += int(n[I])
+                        else:
+                            count[I] += int(n[I])+1
+                    else:
+                        if int(n[I]) > 7:
+                            count[I] += 2
+                        elif int(n[I]) > 5:
+                            count[I] += 1
+        elif not luck: #this is unnessary to calculate since if 6 follow with and 8 nothing will need to be count
+            pass
+        luck = [6,8]
+        pre = False
     print(count[1]-count[0])
 
-luckydy(n)
+#luckydy(n)
